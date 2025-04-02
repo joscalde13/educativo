@@ -37,11 +37,12 @@
             @foreach($subject->levels as $level)
                 @php
                     $completed = $scores->where('level_id', $level->id)->where('completed', true)->first();
+                    $previousLevel = $subject->levels->where('level_number', $level->level_number - 1)->first();
                     $previousCompleted = $level->level_number == 1 || 
-                        $scores->where('level_id', $level->id - 1)->where('completed', true)->first();
+                        ($previousLevel && $scores->where('level_id', $previousLevel->id)->where('completed', true)->first());
                 @endphp
 
-                <div class="level-card bg-white rounded-lg p-6 text-center {{ !$previousCompleted ? 'locked' : '' }}">
+                <div class="bg-white rounded-lg shadow-lg p-6 level-card {{ $previousCompleted ? '' : 'locked' }}">
                     <div class="relative">
                         @if($completed)
                             <div class="absolute -top-2 -right-2 bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center">

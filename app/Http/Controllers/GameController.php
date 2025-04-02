@@ -148,17 +148,8 @@ class GameController extends Controller
             ->first();
             
         if ($existingScore) {
-            // Si ya existe un puntaje...
-            if (!$isCorrect) {
-                // Si la respuesta es incorrecta, no hace nada y retorna
-                return response()->json([
-                    'correct' => false,
-                    'points' => 0,
-                    'total_score' => $student->total_score
-                ]);
-            }
-            // Si la respuesta es correcta y el nivel no estaba completado...
-            if (!$existingScore->completed) {
+            // Si ya existe un puntaje y la respuesta es correcta
+            if ($isCorrect && !$existingScore->completed) {
                 // Actualiza el puntaje existente y marca como completado
                 $existingScore->update([
                     'score' => $points,
@@ -168,9 +159,9 @@ class GameController extends Controller
                 $student->increment('total_score', $points);
             }
         } else {
-            // Si no existe un puntaje previo...
+            // Si no existe un puntaje previo y la respuesta es correcta
             if ($isCorrect) {
-                // Solo si la respuesta es correcta, crea un nuevo registro
+                // Crea un nuevo registro
                 Score::create([
                     'student_id' => $studentId,
                     'level_id' => $levelId,
@@ -184,9 +175,9 @@ class GameController extends Controller
 
         // Retorna la respuesta en formato JSON con el resultado
         return response()->json([
-            'correct' => $isCorrect,  // true si la respuesta fue correcta, false si no
-            'points' => $points,      // puntos ganados en este intento
-            'total_score' => $student->total_score  // puntaje total actualizado del estudiante
+            'correct' => $isCorrect,
+            'points' => $points,
+            'total_score' => $student->total_score
         ]);
     }
 }
