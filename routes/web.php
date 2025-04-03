@@ -21,6 +21,7 @@ Route::get('/', [GameController::class, 'index'])->name('home');
 Auth::routes();
 
 Route::post('/start-game', [GameController::class, 'startGame'])->name('start-game');
+Route::post('/find-student', [GameController::class, 'findStudent'])->name('find-student');
 Route::get('/subjects/{student}', [GameController::class, 'subjects'])->name('subjects');
 Route::get('/subject/{student}/{subject}', [GameController::class, 'showSubject'])->name('show-subject');
 Route::get('/play/{student}/{level}', [GameController::class, 'playLevel'])->name('play-level');

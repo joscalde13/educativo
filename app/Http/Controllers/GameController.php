@@ -20,8 +20,8 @@ class GameController extends Controller
      */
     public function index()
     {
-        // Muestra la página principal del juego
-        return view('welcome');
+        $students = Student::orderBy('name')->get();
+        return view('welcome', compact('students'));
     }
 
     /**
@@ -32,17 +32,20 @@ class GameController extends Controller
      */
     public function startGame(Request $request)
     {
-        // Valida que el nombre del estudiante sea requerido y no exceda 255 caracteres
         $request->validate([
-            'name' => 'required|string|max:255' // Reglas de validación para el nombre
+            'name' => 'required|string|max:255'
         ]);
 
-        // Crea un nuevo estudiante en la base de datos con el nombre proporcionado
-        $student = Student::create([
-            'name' => $request->name // Asigna el nombre del estudiante
-        ]);
+        // Buscar si ya existe un estudiante con ese nombre
+        $student = Student::where('name', $request->name)->first();
 
-        // Redirige a la página de materias pasando el ID del estudiante
+        // Si no existe, crear uno nuevo
+        if (!$student) {
+            $student = Student::create([
+                'name' => $request->name
+            ]);
+        }
+
         return redirect()->route('subjects', ['student' => $student->id]);
     }
 
@@ -179,5 +182,24 @@ class GameController extends Controller
             'points' => $points,
             'total_score' => $student->total_score
         ]);
+    }
+
+    public function findStudent(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $student = Student::where('name', $request->name)->first();
+
+        if (!$student) {
+            $students = Student::orderBy('name')->get();
+            return redirect()->route('home')->with([
+                'error' => 'No se encontró ningún estudiante con ese nombre. Por favor, selecciona tu nombre de la lista.',
+                'students' => $students
+            ]);
+        }
+
+        return redirect()->route('subjects', ['student' => $student->id]);
     }
 }
