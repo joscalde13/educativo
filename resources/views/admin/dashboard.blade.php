@@ -18,10 +18,15 @@
                             </div>
                             <p class="mb-1">Crear, editar y eliminar niveles para cada materia.</p>
                         </a>
+                        <hr>
+                        <a href="{{ route('home') }}" class="btn btn-primary">Ver Métricas del Sistema</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 </div>
+
+
 @endsection 

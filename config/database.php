@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => 'mysql',
+    'default' => 'sqlite',
 
     /*
     |--------------------------------------------------------------------------
@@ -35,12 +35,12 @@ return [
 
     'connections' => [
 
-       // 'sqlite' => [
-        //    'driver' => 'sqlite',
-        //    'database' => database_path('database.sqlite'),
-          //  'prefix' => '',
-           // 'foreign_key_constraints' => true,
-        //],
+        'sqlite' => [
+            'driver' => 'sqlite',
+            'database' => database_path('database.sqlite'),
+            'prefix' => '',
+            'foreign_key_constraints' => true,
+        ],
       
 
         'mysql' => [
