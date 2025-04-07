@@ -60,20 +60,20 @@
             </div>
 
             <!-- Formulario para nuevo estudiante -->
-            <div class="pl-4">
-                <h2 class="text-xl font-semibold text-gray-700 mb-4">¿Eres nuevo?</h2>
-                <form action="{{ route('start-game') }}" method="POST" class="space-y-6">
+            <div>
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">¿Primera vez jugando?</h2>
+                <form action="{{ route('start-game') }}" method="POST" class="space-y-4">
                     @csrf
                     <div>
-                        <label for="name" class="block text-lg font-medium text-gray-700 mb-2">¿Cómo te llamas?</label>
-                        <input type="text" name="name" id="name" required
+                        <label for="new_name" class="block text-lg font-medium text-gray-700 mb-2">Ingresa tu nombre:</label>
+                        <input type="text" name="name" id="new_name" required
                             class="w-full px-4 py-3 rounded-lg border-2 border-indigo-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            placeholder="Escribe tu nombre aquí">
+                            placeholder="Tu nombre aquí">
                     </div>
                     
                     <button type="submit"
-                        class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition duration-300">
-                        ¡Comenzar a Jugar!
+                        class="w-full bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition duration-300">
+                        ¡Comenzar a jugar!
                     </button>
                 </form>
             </div>
