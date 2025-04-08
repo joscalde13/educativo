@@ -8,12 +8,17 @@ use Illuminate\Support\Facades\Auth;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
 */
 
 Route::get('/', [GameController::class, 'index'])->name('home');
 
 // Rutas de autenticación
-Auth::routes(); // ✅ solo una vez
+Auth::routes();
 
 Route::post('/start-game', [GameController::class, 'startGame'])->name('start-game');
 Route::post('/find-student', [GameController::class, 'findStudent'])->name('find-student');
@@ -29,3 +34,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('levels', \App\Http\Controllers\Admin\LevelController::class);
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
