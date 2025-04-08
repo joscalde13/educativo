@@ -65,26 +65,34 @@
                 @endforeach
             </div>
 
-            <div id="result" class="mt-8 p-6 rounded-lg text-center hidden">
-                <div id="success" class="hidden">
-                    <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
-                    <h3 class="text-2xl font-bold text-green-600 mb-2">¡Correcto!</h3>
-                    <p class="text-gray-600">Has ganado <span id="points" class="font-bold"></span> puntos</p>
+            
+            
+            <div id="result" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+                <div class="bg-white p-8 rounded-2xl text-center shadow-2xl max-w-md w-full animate-popup">
+                    <div id="success" class="hidden">
+                        <i class="fas fa-check-circle text-6xl text-green-500 mb-4 animate-bounce"></i>
+                        <h3 class="text-3xl font-bold text-green-600 mb-2">¡Correcto!</h3>
+                        <p class="text-gray-700 text-lg">Has ganado <span id="points" class="font-bold"></span> puntos</p>
+                    </div>
+                    <div id="error" class="hidden">
+                        <i class="fas fa-times-circle text-6xl text-red-500 mb-4 animate-bounce"></i>
+                        <h3 class="text-3xl font-bold text-red-600 mb-2">¡Inténtalo de nuevo!</h3>
+                        <p class="text-gray-700 text-lg">La respuesta no es correcta</p>
+                    </div>
+            
+                    <div class="mt-6 space-y-4">
+                        <button onclick="window.location.reload()"
+                            class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300">
+                            Intentar de nuevo
+                        </button>
+                        <a href="{{ route('show-subject', ['student' => $student->id, 'subject' => $level->subject_id]) }}"
+                            class="w-full inline-block bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300">
+                            Volver a Niveles
+                        </a>
+                    </div>
                 </div>
-                <div id="error" class="hidden">
-                    <i class="fas fa-times-circle text-6xl text-red-500 mb-4"></i>
-                    <h3 class="text-2xl font-bold text-red-600 mb-2">¡Inténtalo de nuevo!</h3>
-                    <p class="text-gray-600">La respuesta no es correcta</p>
-                </div>
-                <button onclick="window.location.reload()" 
-                        class="mt-4 bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-indigo-700">
-                    Intentar de nuevo
-                </button>
-                <a href="{{ route('show-subject', ['student' => $student->id, 'subject' => $level->subject_id]) }}"
-                   class="mt-4 inline-block bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-700">
-                    Volver a Niveles
-                </a>
             </div>
+            
         </div>
     </div>
 
