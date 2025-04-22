@@ -8,10 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Scripts -->
+    <!-- Scripts y Estilos -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
@@ -74,31 +71,7 @@
         </main>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Custom Scripts -->
-    @stack('scripts')
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar el dropdown
-            var dropdownToggle = document.querySelector('[data-bs-toggle="dropdown"]');
-            if (dropdownToggle) {
-                var dropdown = new bootstrap.Dropdown(dropdownToggle);
-            }
-
-            // Manejar el cierre de sesión
-            var logoutForm = document.getElementById('logout-form');
-            if (logoutForm) {
-                logoutForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    this.submit();
-                });
-            }
-        });
-    </script>
+  
 </body>
 </html> 
