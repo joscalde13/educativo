@@ -11,6 +11,8 @@
     <!-- Scripts y Estilos -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">

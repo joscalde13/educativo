@@ -22,6 +22,8 @@
             cursor: not-allowed;
         }
     </style>
+
+
 </head>
 <body class="flex flex-col items-center p-8">
     <div class="w-full max-w-4xl">

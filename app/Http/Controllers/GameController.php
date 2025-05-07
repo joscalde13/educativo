@@ -1,16 +1,17 @@
 <?php
 
-// Define el espacio de nombres del controlador
 namespace App\Http\Controllers;
 
 // Importamos los modelos y clases que vamos a usar
-use App\Models\Student; // Modelo para el estudiante
-use App\Models\Subject; // Modelo para la materia
-use App\Models\Level; // Modelo para el nivel
-use App\Models\Score; // Modelo para el puntaje
+use App\Models\Student; 
+use App\Models\Subject; 
+use App\Models\Level;
+use App\Models\Score; 
 use Illuminate\Http\Request; // Clase para manejar solicitudes HTTP
 
-// Clase controladora para el juego
+
+
+// CLASE QUE CONTROLARA TODO LA LOGICA DEL JUEGO
 class GameController extends Controller
 {
     /**
@@ -18,6 +19,8 @@ class GameController extends Controller
      *
      * @return \Illuminate\View\View
      */
+
+     
     public function index()
     {
         $students = Student::orderBy('name')->get();

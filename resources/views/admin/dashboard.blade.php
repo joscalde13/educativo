@@ -22,6 +22,8 @@
                         <a href="{{ route('home') }}" class="btn btn-primary">Ver Métricas del Sistema</a>
                     </div>
                 </div>
+
+       
             </div>
         </div>
     </div>

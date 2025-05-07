@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', [GameController::class, 'index'])->name('home');
 
 // Rutas de autenticación
+
 Auth::routes();
 
 Route::post('/start-game', [GameController::class, 'startGame'])->name('start-game');
@@ -35,6 +36,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('levels', \App\Http\Controllers\Admin\LevelController::class);
 });
 
-Auth::routes();
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
