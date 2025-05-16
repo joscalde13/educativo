@@ -4,80 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego Educativo</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+
     <style>
         body {
-            background: linear-gradient(135deg, #4c4d6f 0%, #3ea7a7 100%);
+            background: linear-gradient(145deg, #ffecd2 0%, #fcb69f 100%);
             min-height: 100vh;
+            background-image: url('https://www.transparenttextures.com/patterns/food.png');
         }
+
         .game-card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 1rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            background: #fff9f3;
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 5px solid #ffb347;
         }
+
+        h1, h2 {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        h1 {
+            color: #ff6347;
+        }
+
+        h2 {
+            color: #ff8c00;
+        }
+
+        .form-label {
+            font-size: 1.25rem;
+            color: #d63384;
+        }
+
+        .form-select,
+        .form-control {
+            background-color: #fff0f5;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn-lg {
+            font-size: 1.4rem;
+            border-radius: 50px;
+            padding: 15px 25px;
+        }
+
+        .btn-primary {
+            background-color: #ff69b4;
+            border-color: #ff69b4;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff1493;
+            border-color: #ff1493;
+        }
+
+        .btn-success {
+            background-color: #32cd32;
+            border-color: #32cd32;
+        }
+
+        .btn-success:hover {
+            background-color: #228b22;
+            border-color: #228b22;
+        }
+
         .error-message {
             animation: shake 0.5s;
         }
+
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
     </style>
+
+
 </head>
-<body class="flex items-center justify-center">
-    <div class="game-card p-8 m-4 w-full max-w-4xl">
-        <h1 class="text-4xl font-bold text-center text-indigo-600 mb-8">¡Bienvenido al Juego Educativo!</h1>
-        
+
+
+
+
+
+
+<!-- EL CUERPO DONDE ESTA PARA BUSCAR E INGRESAR EL NOMBRE DEL ESTUDIANTE -->
+<body class="d-flex align-items-center justify-content-center">
+
+    <div class="game-card w-100 m-4" style="max-width: 1000px;">
+        <h1 class="text-center fw-bold mb-5 display-4">🎉 ¡Bienvenido al Juego Educativo! 🎨</h1>
+
+
+
         @if(session('error'))
-            <div class="error-message bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
-                <p>{{ session('error') }}</p>
+            <div class="error-message alert alert-danger text-center fw-bold rounded-pill mb-4">
+                {{ session('error') }}
             </div>
         @endif
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Formulario de búsqueda de estudiante existente -->
-            <div class="border-r-2 border-gray-200 pr-4">
-                <h2 class="text-xl font-semibold text-gray-700 mb-4">¿Ya has jugado antes?</h2>
-                <form action="{{ route('find-student') }}" method="POST" class="space-y-4">
+
+
+        <div class="row g-5">
+
+
+            <!-- FORMULARIO DE BUSQUEDA DE ESTUDIANTE EXISTENTE -->
+            <div class="col-md-6 border-end border-4 border-warning">
+                <h2 class="fw-bold mb-4">🧒 ¿Ya has jugado antes?</h2>
+
+                <form action="{{ route('find-student') }}" method="POST" class="vstack gap-4">
                     @csrf
+
                     <div>
-                        <label for="search_name" class="block text-lg font-medium text-gray-700 mb-2">Selecciona tu nombre:</label>
-                        <select name="name" id="search_name" required
-                            class="w-full px-4 py-3 rounded-lg border-2 border-indigo-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">Encuentra tu nombre</option>
+                        <label class="form-label">Selecciona tu nombre:</label>
+
+                        <select name="name" required class="form-select form-select-lg">
+
+                            <option value="">🌟 Encuentra tu nombre</option>
+
                             @foreach($students as $student)
-                                <option value="{{ $student->name }}">{{ $student->name }}</option>
+                                <option>{{ $student->name }}</option>
                             @endforeach
+
                         </select>
+
                     </div>
-                    
-                    <button type="submit"
-                        class="w-full bg-purple-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-purple-700 transition duration-300">
-                        Buscar mi progreso
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">
+                        🔎 Buscar mi progreso
                     </button>
                 </form>
             </div>
 
-            <!-- Formulario para nuevo estudiante -->
-            <div>
-                <h2 class="text-xl font-semibold text-gray-700 mb-4">¿Primera vez jugando?</h2>
-                <form action="{{ route('start-game') }}" method="POST" class="space-y-4">
+
+
+
+            <!-- FORMULARIO PARA NUEVO ESTUDIANTE -->
+            <div class="col-md-6">
+
+                <h2 class="fw-bold mb-4">🦋 ¿Primera vez jugando?</h2>
+
+                <form action="{{ route('start-game') }}" method="POST" class="vstack gap-4">
                     @csrf
+
                     <div>
-                        <label for="new_name" class="block text-lg font-medium text-gray-700 mb-2">Ingresa tu nombre:</label>
-                        <input type="text" name="name" id="new_name" required
-                            class="w-full px-4 py-3 rounded-lg border-2 border-indigo-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            placeholder="Tu nombre aquí">
+                        <label class="form-label">Ingresa tu nombre:</label>
+                        <input type="text" name="name" required class="form-control form-control-lg" placeholder="🎈 Tu nombre aquí">
                     </div>
-                    
-                    <button type="submit"
-                        class="w-full bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition duration-300">
-                        ¡Comenzar a jugar!
+
+                    <button type="submit" class="btn btn-success btn-lg w-100 fw-bold">
+                        🚀 ¡Comenzar a jugar!
                     </button>
                 </form>
             </div>
+
         </div>
+
     </div>
+
 </body>
 </html>

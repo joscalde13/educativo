@@ -36,8 +36,11 @@
 
 
 <body class="flex flex-col items-center p-8">
+
     <div class="w-full max-w-4xl">
         
+
+
 
         <!-- BUSCA EL ID DEL ESTUDIANTE Y EL NIVEL CON SU MATERIA Y ID RELACIONADO A TRAVES DEL METODO PLAY LEVEL -->
         <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
@@ -58,6 +61,8 @@
         </div>
 
 
+        
+        <!-- CONTENEDOR DE TITULO Y PREGUNTAS -->
         <div class="bg-white rounded-lg shadow-lg p-8">
             
 
@@ -68,6 +73,8 @@
                 <div class="text-lg font-semibold text-gray-800">{{ $level->question }}</div>
             </div>
 
+
+            
             
             <!-- BUSCA LAS RESPUESTAS Y MEZCLA LAS CORRECTAS CON LAS INCORRECTAS-->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="answers">
@@ -75,6 +82,7 @@
                     $answers = array_merge([$level->correct_answer], $level->wrong_answers);
                     shuffle($answers);
                 @endphp
+
 
 
                 <!-- MUESTRA LAS RESPUESTAS EN BOTONES Y CUANDO EL USUARIO SELECCIONA UNA RESPUESTA ES ENVIADA AL METODO SubmitAnswer PARA VALIDAR SI ES CORRECTA O NO  -->
@@ -89,7 +97,11 @@
             
 
 
-            <!-- CONTENEDOR PRINCIPAL DEL MODAL PARA RESPUESTAS CORRECTAS E INCORRECTAS-->
+
+
+
+
+            <!-- CONTENEDOR PRINCIPAL DEL LA VENTANA EMERGENTE PARA RESPUESTAS CORRECTAS E INCORRECTAS-->
             <div id="result" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
 
 
@@ -140,7 +152,6 @@
             
 
 
-
         </div>
 
 
@@ -154,6 +165,7 @@
     <!-- SCRIPT PARA MANEJO DE MODAL, RESPUESTAS Y ANIMACIONES -->
     <script>
 
+        
         <!-- CONFIGURACION DE AJAX PARA ENVIAR EL TOKEN CSRF EN CADA PETICION AJAX -->
         $.ajaxSetup({
             headers: {

@@ -2,122 +2,149 @@
 
 namespace App\Http\Controllers;
 
-// Importamos los modelos y clases que vamos a usar
+
 use App\Models\Student; 
 use App\Models\Subject; 
 use App\Models\Level;
 use App\Models\Score; 
-use Illuminate\Http\Request; // Clase para manejar solicitudes HTTP
+use Illuminate\Http\Request; 
 
 
 
 // CLASE QUE CONTROLARA TODO LA LOGICA DEL JUEGO
+
 class GameController extends Controller
 {
-    /**
-     * Muestra la página principal del juego
-     *
-     * @return \Illuminate\View\View
-     */
+    
 
-     
+
+     // METODO PARA BUSCAR EL ESTUDIANTE EN DB Y LA MUESTRA EN WELCOME
     public function index()
     {
         $students = Student::orderBy('name')->get();
         return view('welcome', compact('students'));
     }
 
-    /**
-     * Inicia un nuevo juego para un estudiante
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+
+ 
+
+
+
+
+    // METODO PARA INGRESO DE NUEVO ESTUDIANTE
     public function startGame(Request $request)
     {
+
+
+        //VERIFICACION DE NOMBRE
         $request->validate([
             'name' => 'required|string|max:255'
         ]);
 
-        // Buscar si ya existe un estudiante con ese nombre
+
+        //BUSCA SI YA EXISTE UN ESTUDIANTE CON ESE NOMBRE
         $student = Student::where('name', $request->name)->first();
 
-        // Si no existe, crear uno nuevo
+        
+        // SI NO EXISTE EL ESTUDIANTE SE CREA UNO NUEVO 
         if (!$student) {
             $student = Student::create([
                 'name' => $request->name
             ]);
         }
 
+
+        // REDIRIGE AL ESTUDIANTE A LA VISTA SUBJECTS ENVIANDO STUDENT ID COMO PARAMETRO AL METODO SUBJECTS
         return redirect()->route('subjects', ['student' => $student->id]);
+    
+    
     }
 
-    /**
-     * Muestra las materias disponibles para un estudiante
-     *
-     * @param  int  $studentId
-     * @return \Illuminate\View\View
-     */
+    
+
+    
+
+    // METODO PARA MOSTRAR EL ESTUDIANTE QUE VIENE DEL METODO StartGame 
     public function subjects($studentId)
     {
-        // Busca el estudiante por ID (si no existe, lanza error 404)
+        // BUSCA EL ESTUDIANTE POR SU ID 
         $student = Student::findOrFail($studentId);
-        // Obtiene todas las materias de la base de datos
+
+        // OBTIENE TODAS LAS MATERIAS DE BASE DE DATOS 
         $subjects = Subject::all();
-        // Muestra la vista de materias con los datos del estudiante y las materias
+
+        // MUESTRA EN LA VISTA LAS MATERIAS CON LOS DATOS DEL ESTUDIANTE
         return view('subjects', compact('student', 'subjects'));
     }
 
-    /**
-     * Muestra los niveles de una materia para un estudiante
-     *
-     * @param  int  $studentId
-     * @param  int  $subjectId
-     * @return \Illuminate\View\View
-     */
+    
+
+
+
+
+
+    // METODO PARA MOSTRAR LAS MATERIAS AL ESTUDIANTE RECIBIENDO DEL ESTUDIANTE EL ID Y EL ID DE LA MATERIA
     public function showSubject($studentId, $subjectId)
     {
-        // Busca el estudiante por ID
+        // BUSCA EL ESTUDIANTE POR SU ID EN DB
         $student = Student::findOrFail($studentId);
-        // Busca la materia y carga sus niveles relacionados
+
+
+        // BUSCA LA MATERIA CON SUS NIVELES TOMANDO EL ID DE LA MATERIA DE DB Y DEPENDIENDO DE ESE ID MUESTRA LA MATERIA
         $subject = Subject::with('levels')->findOrFail($subjectId);
-        // Obtiene los puntajes del estudiante para esta materia
+        
+        
+        // OBTIENE EL PUNTAJE DEL ESTUDIANTE POR MEDIO DEL ID Y EL NIVEL 
         $scores = Score::where('student_id', $studentId)
             ->whereHas('level', function($query) use ($subjectId) {
                 $query->where('subject_id', $subjectId);
             })->get();
 
-        // Muestra la vista de niveles con los datos necesarios
+
+            
+        // MUESTRA LA VISTA DE LEVELS PASANDO DATOS DEL ESTUDIANTE DE STUDENT MATERIA CON SUS NIVELES Y EL PUNTAJE DEL ESTUDIANTE
         return view('levels', compact('student', 'subject', 'scores'));
     }
 
-    /**
-     * Muestra un nivel de juego para un estudiante
-     *
-     * @param  int  $studentId
-     * @param  int  $levelId
-     * @return \Illuminate\View\View
-     */
+    
+
+
+
+
+    // METODO PARA VERIFICAR NIVELES COMPLETADOS DEL ESTUDIANTE
     public function playLevel($studentId, $levelId)
     {
-        // Busca el estudiante y el nivel (con su materia relacionada)
+
+
+        // BUSCA EL ESTUDIANTE Y SU NIVEL CON SU MATERIA RELACIONADA
         $student = Student::findOrFail($studentId);
         $level = Level::with('subject')->findOrFail($levelId);
         
-        // Si no es el primer nivel, verifica si el nivel anterior está completado
+
+        // VERIFICA QUE SI NO ES EL PRIMER NIVEL 
         if ($level->level_number > 1) {
-            // Busca el nivel anterior de la misma materia
+
+
+            // LA VARIABLE PREVIUS LEVEL SE USA PARA VERIFICAR SI EL ESTUDIANTE COMPLETO EL ANTERIOR PASA AL SIGUIENTE NIVEL
+            // LAS VARIABLES PREVIUSLEVEL Y PREVIOUSCOMPLETED SE USAN EN LA VISTA LEVELS.BLADE.PHP
             $previousLevel = Level::where('subject_id', $level->subject_id)
+                
+            
+                // BUSCA EL NIVEL ANTERIOR 
                 ->where('level_number', $level->level_number - 1)
                 ->first();
             
-            // Verifica si el estudiante completó el nivel anterior
+
+
+            // VERIFICA SI EL ESTUDIANTE COMPLETO EL NIVEL ANTERIOR BUSCA EN TABLA SCORES DE DB
             $previousCompleted = Score::where('student_id', $studentId)
                 ->where('level_id', $previousLevel->id)
                 ->where('completed', true)
                 ->exists();
             
-            // Si no completó el nivel anterior, redirige con mensaje de error
+
+
+            // SI NO COMPLETO EL NIVEL ANTERIOR REVUELVE A SUBJECTS PORQUE DEBERIA DE COMPLETAR 
             if (!$previousCompleted) {
                 return redirect()->route('show-subject', [
                     'student' => $studentId,
@@ -126,60 +153,71 @@ class GameController extends Controller
             }
         }
         
-        // Muestra la vista del juego con el nivel actual
+
+        // MUESTRA LA VISTA DEL JUEGO CON EL NIVEL ACTUAL
         return view('play', compact('student', 'level'));
     }
 
-    /**
-     * Procesa la respuesta de un estudiante a un nivel de juego
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $studentId
-     * @param  int  $levelId
-     * @return \Illuminate\Http\JsonResponse
-     */
+
+
+
+
+
+
+
+    // METODO PARA VERIFICAR RESPUESTAS BUENAS O MALAS Y ACTUALIZAR EL SCORE DEL ESTUDIANTE CUANDO SELECCIONA UNA RESPUESTA
     public function submitAnswer(Request $request, $studentId, $levelId)
     {
-        // Busca el estudiante y el nivel
+        // BUSCA EL ESTUDIANTE Y EL NIVEL Y AMBOS POR SU ID LOS ENCUENTRA
         $student = Student::findOrFail($studentId);
         $level = Level::findOrFail($levelId);
         
-        // Verifica si la respuesta es correcta y calcula los puntos
+        // VERIFICA SI LA RESPUESTA ES CORRECTA SI NO 0 PUNTOS
         $isCorrect = $request->answer === $level->correct_answer;
         $points = $isCorrect ? $level->points : 0;
         
-        // Busca si ya existe un puntaje para este nivel y estudiante
+
+        // BUSCA SI EL ESTUDIANTE YA INTENTO ESE NIVEL ANTES 
         $existingScore = Score::where('student_id', $studentId)
             ->where('level_id', $levelId)
             ->first();
-            
+
+
+
+        // SI YA EXISTE
         if ($existingScore) {
-            // Si ya existe un puntaje y la respuesta es correcta
+
+            // SI LA RESPUESTA ES CORRECTA Y NO HABIA COMPLETADO EL NIVEL
             if ($isCorrect && !$existingScore->completed) {
-                // Actualiza el puntaje existente y marca como completado
+
+                // ACTUALIZA EL PUNTAJE EXISTENTE Y MARCA TRUE COMO COMPLETADO
                 $existingScore->update([
                     'score' => $points,
                     'completed' => true
                 ]);
-                // Incrementa el puntaje total del estudiante
+
+                // INCREMENTA EL PUNTAJE TOTAL DEL ESTUDIANTE
                 $student->increment('total_score', $points);
             }
         } else {
-            // Si no existe un puntaje previo y la respuesta es correcta
+
+            // SI NO HAY PUNTEO Y LA RESPUESTA ES CORRECTA
             if ($isCorrect) {
-                // Crea un nuevo registro
+
+                // CREA NUEVO REGISTRO EN LA TABLA SCORES DE DB GUARDA AL ESTUDIANTE
                 Score::create([
                     'student_id' => $studentId,
                     'level_id' => $levelId,
                     'score' => $points,
                     'completed' => true
                 ]);
-                // Incrementa el puntaje total del estudiante
+
+                // SE INCREMENTA EL PUNTAJE TOTAL DEL ESTUDIANTE
                 $student->increment('total_score', $points);
             }
         }
 
-        // Retorna la respuesta en formato JSON con el resultado
+        // RETORNA RESPUESTA A LA VISTA 
         return response()->json([
             'correct' => $isCorrect,
             'points' => $points,
@@ -187,14 +225,23 @@ class GameController extends Controller
         ]);
     }
 
+
+
+
+
+
+    // FUNCION PARA BUSCAR EL ESTUDIANTE EN LA VISTA WELCOME
     public function findStudent(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255'
         ]);
 
+        //BUSCA EN DB CUYO NOMBRE EN DB COINCIDA CON EL NOMBRE QUE SE INGRESO EN EL FORMULARIO
         $student = Student::where('name', $request->name)->first();
 
+
+        // SI NO ENCUENTRA NINGUN ESTUDIANTE CON ESE NOMBRE SE REDIRIGE A LA VISTA WELCOME CON UN MENSAJE DE ERROR Y LA LISTA DE ESTUDIANTES
         if (!$student) {
             $students = Student::orderBy('name')->get();
             return redirect()->route('home')->with([
@@ -203,6 +250,11 @@ class GameController extends Controller
             ]);
         }
 
+        // SI ENCUENTRA UN ESTUDIANTE CON ESE NOMBRE SE REDIRIGE A LA VISTA SUBJECTS CON EL ID DEL ESTUDIANTE
         return redirect()->route('subjects', ['student' => $student->id]);
     }
+
+    
+
+
 }
