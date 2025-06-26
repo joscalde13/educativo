@@ -148,6 +148,114 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Progreso de Estudiantes -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4 class="mb-0">Progreso de Estudiantes</h4>
+                </div>
+
+                <div class="card-body">
+                    @if($students->count() > 0)
+                        <div class="row">
+                            @foreach($students as $student)
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100">
+
+                                    <div class="card-header bg-info text-white">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="mb-0">{{ $student['name'] }}</h5>
+                                            <span class="badge bg-light text-dark">{{ $student['progress_percentage'] }}%</span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="card-body">
+                                        
+                                        <!-- Progreso General -->
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between mb-1">
+                                                <span>Progreso General</span>
+                                                <span>{{ $student['completed_levels'] }}/{{ $student['total_levels'] }}</span>
+                                            </div>
+
+                                            <div class="progress">
+                                                <div class="progress-bar bg-success" role="progressbar" 
+                                                     style="width: {{ $student['progress_percentage'] }}%" 
+                                                     aria-valuenow="{{ $student['progress_percentage'] }}" 
+                                                     aria-valuemin="0" aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+
+
+                                        <!-- Puntuación Promedio -->
+                                        <div class="mb-3">
+                                            <h6 class="text-muted">Puntuación Promedio</h6>
+                                            <h4 class="text-primary">{{ number_format($student['average_score'], 1) }}</h4>
+                                        </div>
+
+
+                                        <!-- Progreso por Materia -->
+                                        <div class="mb-3">
+                                            <h6 class="text-muted">Progreso por Materia</h6>
+
+                                            @foreach($student['progress_by_subject'] as $subject)
+
+                                            <div class="mb-2">
+
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="small">{{ $subject['name'] }}</span>
+                                                    <span class="small text-muted">{{ $subject['completed_levels'] }}/{{ $subject['total_levels'] }}</span>
+                                                </div>
+
+
+                                                <div class="progress" style="height: 6px;">
+
+                                                    <div class="progress-bar bg-error" role="progressbar" 
+                                                         style="width: {{ $subject['progress_percentage'] }}%" 
+                                                         aria-valuenow="{{ $subject['progress_percentage'] }}" 
+                                                         aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                    
+                                                </div>
+
+
+                                                <div class="d-flex justify-content-between">
+                                                    <small class="text-muted">{{ number_format($subject['average_score'], 1) }} pts</small>
+                                                    <small class="text-muted">{{ $subject['progress_percentage'] }}%</small>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Estado del Estudiante -->
+                                        <div class="text-center">
+                                            @if($student['progress_percentage'] >= 80)
+                                                <span class="badge bg-success">Excelente</span>
+                                            @elseif($student['progress_percentage'] >= 60)
+                                                <span class="badge bg-warning">Bueno</span>
+                                            @elseif($student['progress_percentage'] >= 40)
+                                                <span class="badge bg-info">Regular</span>
+                                            @else
+                                                <span class="badge bg-danger">Necesita Mejorar</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="text-center py-4">
+                            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No hay estudiantes registrados</h5>
+                            <p class="text-muted">Los estudiantes aparecerán aquí una vez que se registren y comiencen a jugar.</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 </div>

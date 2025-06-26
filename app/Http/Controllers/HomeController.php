@@ -54,6 +54,40 @@ class HomeController extends Controller
             ];
         });
 
-        return view('home', compact('metrics', 'subjects'));
+        // Obtener progreso de cada estudiante
+        $students = Student::with(['scores.level.subject'])->get()->map(function($student) {
+            $scores = $student->scores;
+            $totalLevels = Level::count();
+            $completedLevels = $scores->where('completed', true)->count();
+            $averageScore = $scores->avg('score') ?? 0;
+            
+            // Agrupar por materia
+            $progressBySubject = $scores->groupBy('level.subject.name')->map(function($subjectScores, $subjectName) {
+                $subjectLevels = $subjectScores->groupBy('level.subject_id')->first()->count();
+                $completedSubjectLevels = $subjectScores->where('completed', true)->count();
+                $subjectAverage = $subjectScores->avg('score') ?? 0;
+                
+                return [
+                    'name' => $subjectName,
+                    'total_levels' => $subjectLevels,
+                    'completed_levels' => $completedSubjectLevels,
+                    'average_score' => $subjectAverage,
+                    'progress_percentage' => $subjectLevels > 0 ? round(($completedSubjectLevels / $subjectLevels) * 100, 1) : 0
+                ];
+            });
+
+            return [
+                'id' => $student->id,
+                'name' => $student->name,
+                'email' => $student->email,
+                'total_levels' => $totalLevels,
+                'completed_levels' => $completedLevels,
+                'average_score' => $averageScore,
+                'progress_percentage' => $totalLevels > 0 ? round(($completedLevels / $totalLevels) * 100, 1) : 0,
+                'progress_by_subject' => $progressBySubject
+            ];
+        });
+
+        return view('home', compact('metrics', 'subjects', 'students'));
     }
 }
