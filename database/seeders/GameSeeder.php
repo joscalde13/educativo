@@ -13,19 +13,22 @@ class GameSeeder extends Seeder
         // Crear materias
         $matematicas = Subject::create([
             'name' => 'Matemáticas',
-            'color' => '#3B82F6',
+            'color' => 'primary',
+            'description' => 'Aprende matemáticas de forma divertida',
             'icon' => 'calculator'
         ]);
 
         $ciencias = Subject::create([
             'name' => 'Ciencias Naturales',
-            'color' => '#10B981',
+            'color' => 'info',
+            'description' => 'Explora el mundo natural y sus maravillas',
             'icon' => 'leaf'
         ]);
 
         $lectura = Subject::create([
             'name' => 'Lectura',
-            'color' => '#8B5CF6',
+            'color' => 'success',
+            'description' => 'Desarrolla tus habilidades de lectura y comprensión',
             'icon' => 'book-open'
         ]);
 

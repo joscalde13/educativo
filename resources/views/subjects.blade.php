@@ -74,7 +74,7 @@
 
         
         <div class="welcome-box">
-          <h1 class="mb-3 text-danger">🎉 ¡Hola, {{ $student->name }}!</h1>
+          <h1 class="mb-3 text-primary">🎉 ¡Hola, {{ $student->name }}!</h1>
           <p class="fs-5 text-secondary">🌟 Puntaje Total: {{ $student->total_score }}</p>
         </div>
 
@@ -82,39 +82,15 @@
   
     <div class="row g-4">
 
-
-          <!-- MATEMATICAS -->
-          <div class="col-md-4">
-            <a href="{{ route('show-subject', ['student' => $student->id, 'subject' => 1]) }}" class="subject-card text-center">
-              <i class="fas fa-calculator text-primary"></i>
-              <h5 class="subject-title mt-2">Matemáticas</h5>
-              <p class="subject-description">¡Resuelve problemas y aprende números!</p>
+        @foreach($subjects as $subject)
+        <div class="col-md-4">
+            <a href="{{ route('show-subject', ['student' => $student->id, 'subject' => $subject->id]) }}" class="subject-card text-center">
+                <i class="fas fa-{{ $subject->icon  }} text-{{ $subject->color }}"></i>
+                <h5 class="subject-title mt-2">{{ $subject->name }}</h5>
+                <p class="subject-description">{{ $subject->description }}</p>
             </a>
-          </div>
-
-
-
-          <!-- CIENCIAS NATURALES -->
-          <div class="col-md-4">
-            <a href="{{ route('show-subject', ['student' => $student->id, 'subject' => 2]) }}" class="subject-card text-center">
-              <i class="fas fa-leaf text-success"></i>
-              <h5 class="subject-title mt-2">Ciencias Naturales</h5>
-              <p class="subject-description">¡Explora la naturaleza y sus secretos!</p>
-            </a>
-          </div>
-
-
-
-          <!-- LECTURA -->
-          <div class="col-md-4">
-            <a href="{{ route('show-subject', ['student' => $student->id, 'subject' => 3]) }}" class="subject-card text-center">
-              <i class="fas fa-book-open text-warning"></i>
-              <h5 class="subject-title mt-2">Lectura</h5>
-              <p class="subject-description">¡Descubre historias fascinantes!</p>
-            </a>
-          </div>
-
-
+        </div>
+        @endforeach
 
     </div> 
 

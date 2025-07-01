@@ -28,39 +28,61 @@ class GameController extends Controller
 
  
 
+    // FUNCION PARA BUSCAR EL ESTUDIANTE EN LA VISTA WELCOME
+    public function findStudent(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'password' => 'required|string|max:255'
+        ]);
+
+        //BUSCA EN DB CUYO NOMBRE EN DB COINCIDA CON EL NOMBRE QUE SE INGRESO EN EL FORMULARIO
+        $student = Student::where('name', $request->name)->first();
+
+        // SI NO ENCUENTRA NINGUN ESTUDIANTE CON ESE NOMBRE SE REDIRIGE A LA VISTA WELCOME CON UN MENSAJE DE ERROR
+        if (!$student) {
+            return redirect()->route('welcome')->with('error', 'No se encontró ningún estudiante con ese nombre. Por favor, verifica el nombre e intenta de nuevo.');
+        }
+
+
+        // VERIFICAR LA CLAVE
+        if ($student->password !== $request->password) {
+            return redirect()->route('welcome')->with('error', 'La clave es incorrecta. Por favor, verifica tu clave e intenta de nuevo.');
+        }
+
+        // SI ENCUENTRA UN ESTUDIANTE CON ESE NOMBRE Y LA CLAVE ES CORRECTA SE REDIRIGE A LA VISTA SUBJECTS CON EL ID DEL ESTUDIANTE
+        return redirect()->route('subjects', ['student' => $student->id]);
+    }
+
 
 
 
     // METODO PARA INGRESO DE NUEVO ESTUDIANTE
     public function startGame(Request $request)
     {
-
-
-        //VERIFICACION DE NOMBRE
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'password' => 'required|string|max:255'
         ]);
 
-
-        //BUSCA SI YA EXISTE UN ESTUDIANTE CON ESE NOMBRE
-        $student = Student::where('name', $request->name)->first();
-
+        // VERRIFICA SI YA EXISTE UN ESTUDIANTE CON EL NOMBRE INGRESADO
+        $existingStudent = Student::where('name', $request->name)->first();
         
-        // SI NO EXISTE EL ESTUDIANTE SE CREA UNO NUEVO 
-        if (!$student) {
-            $student = Student::create([
-                'name' => $request->name
-            ]);
+        if ($existingStudent) {
+            return redirect()->route('welcome')->with('error', 'Ya existe un estudiante con ese nombre. Por favor, busca tu nombre en la lista de estudiantes existentes.');
         }
 
+        // CREA UN NUEVO ESTUDIANTE CON EL NOMBRE Y LA CLAVE INGRESADA
+        $student = Student::create([
+            'name' => $request->name,
+            'password' => $request->password
+        ]);
 
-        // REDIRIGE AL ESTUDIANTE A LA VISTA SUBJECTS ENVIANDO STUDENT ID COMO PARAMETRO AL METODO SUBJECTS
         return redirect()->route('subjects', ['student' => $student->id]);
-    
-    
     }
 
     
+
 
     
 
@@ -230,29 +252,7 @@ class GameController extends Controller
 
 
 
-    // FUNCION PARA BUSCAR EL ESTUDIANTE EN LA VISTA WELCOME
-    public function findStudent(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255'
-        ]);
-
-        //BUSCA EN DB CUYO NOMBRE EN DB COINCIDA CON EL NOMBRE QUE SE INGRESO EN EL FORMULARIO
-        $student = Student::where('name', $request->name)->first();
-
-
-        // SI NO ENCUENTRA NINGUN ESTUDIANTE CON ESE NOMBRE SE REDIRIGE A LA VISTA WELCOME CON UN MENSAJE DE ERROR Y LA LISTA DE ESTUDIANTES
-        if (!$student) {
-            $students = Student::orderBy('name')->get();
-            return redirect()->route('home')->with([
-                'error' => 'No se encontró ningún estudiante con ese nombre. Por favor, selecciona tu nombre de la lista.',
-                'students' => $students
-            ]);
-        }
-
-        // SI ENCUENTRA UN ESTUDIANTE CON ESE NOMBRE SE REDIRIGE A LA VISTA SUBJECTS CON EL ID DEL ESTUDIANTE
-        return redirect()->route('subjects', ['student' => $student->id]);
-    }
+   
 
     
 

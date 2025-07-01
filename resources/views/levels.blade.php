@@ -104,6 +104,7 @@
         <!-- RECORRE LOS NIVELES DE LA MATERIA -->
         @foreach($subject->levels as $level)
 
+        
           @php
             // LA VARIABLE COMPLETED VERIFICA EN LA TABLA SCORES HAYA UN LEVEL_ID QUE SEA COMPLETED TRUE 
             $completed = $scores->where('level_id', $level->id)->where('completed', true)->first();

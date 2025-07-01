@@ -4,10 +4,16 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
+            <a href="{{ route('home') }}" class=" btn-primary">Ver Métricas del Sistema</a>
+            <hr>
             <div class="card">
+                 
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Gestión de Niveles</span>
-                    <a href="{{ route('admin.levels.create') }}" class="btn btn-primary btn-sm">Crear Nuevo Nivel</a>
+                    <span>Gestión de Niveles y Materias</span>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('admin.subjects.index') }}" class="btn btn-success btn-sm">Crear Materia</a>
+                        <a href="{{ route('admin.levels.create') }}" class="btn btn-primary btn-sm">Crear Nuevo Nivel</a>
+                    </div>
                 </div>
 
                 <div class="card-body">
@@ -40,7 +46,7 @@
                                                     <td>{{ $level->title }}</td>
                                                     <td>{{ $level->points }}</td>
                                                     <td>
-                                                        <a href="{{ route('admin.levels.edit', $level) }}" class="btn btn-sm btn-info">Editar</a>
+                                                        <a href="{{ route('admin.levels.edit', $level) }}" class="btn btn-sm btn-primary">Editar</a>
                                                         <form action="{{ route('admin.levels.destroy', $level) }}" method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')

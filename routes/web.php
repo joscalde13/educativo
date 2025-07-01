@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\SubjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +16,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', [GameController::class, 'index'])->name('home');
+Route::get('/', [GameController::class, 'index'])->name('welcome');
 
-// Rutas de autenticación
+
 
 Auth::routes();
 
@@ -40,11 +41,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         return view('admin.dashboard');
     })->name('dashboard');
 
-
     Route::resource('levels', \App\Http\Controllers\Admin\LevelController::class);
-
+    Route::resource('subjects', \App\Http\Controllers\SubjectController::class);
 });
 
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

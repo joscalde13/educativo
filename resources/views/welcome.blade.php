@@ -77,6 +77,18 @@
             animation: shake 0.5s;
         }
 
+        .form-control[type="password"] {
+            background-color: #fff0f5;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .text-muted {
+            color: #6c757d !important;
+            font-size: 0.9rem;
+        }
+
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
@@ -100,13 +112,18 @@
    
 
 
-        <div class="game-card w-100 m-4" style="max-width: 1000px;">
+    <div class="game-card w-100 m-4" style="max-width: 1000px;">
 
             @if(session('error'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('error') }}
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm border-0" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-circle me-2 fs-5"></i>
+                        <span>{{ session('error') }}</span>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                 </div>
             @endif
+
 
             
         <h1 class="text-center fw-bold mb-5 display-4">¡Bienvenido al Juego Educativo! </h1>
@@ -134,12 +151,21 @@
 
                             <option value="">Encuentra tu nombre</option>
 
-                            @foreach($students as $student)
-                                <option>{{ $student->name }}</option>
-                            @endforeach
+                            @if($students->count() > 0)
+                                @foreach($students as $student)
+                                    <option value="{{ $student->name }}">{{ $student->name }}</option>
+                                @endforeach
+                            @else
+                                <option value="" disabled>No hay estudiantes registrados</option>
+                            @endif
 
                         </select>
 
+                    </div>
+
+                    <div>
+                        <label class="form-label">Ingresa tu clave:</label>
+                        <input type="password" name="password" required class="form-control form-control-lg" placeholder="Tu clave aquí">
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">
@@ -164,6 +190,13 @@
                     <div>
                         <label class="form-label">Ingresa tu nombre:</label>
                         <input type="text" name="name" required class="form-control form-control-lg" placeholder="Tu nombre aquí">
+                    </div>
+
+                    <div>
+                        <label class="form-label">Crea tu clave:</label>
+                        <input type="password" name="password" required class="form-control form-control-lg" placeholder="Crea una clave ">
+                        <hr>
+                        <small class="text-muted">Esta clave te servirá para acceder a tu progreso en el futuro</small>
                     </div>
 
                     <button type="submit" class="btn btn-success btn-lg w-100 fw-bold">
