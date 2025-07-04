@@ -43,15 +43,9 @@ class LevelController extends Controller
 
         // RECORRE CADA MATERIA PARA CALCULAR EL SIGUIENTE NÚMERO DE NIVEL
         foreach ($subjects as $subject) {
-
-
-            // OBTIENE EL ÚLTIMO NIVEL DE LA MATERIA ORDENADO DE FORMA DESCENDENTE
-            $lastLevel = $subject->levels()->orderBy('level_number', 'desc')->first();
-
-
-            // SI EXISTE UN NIVEL, SUMA 1. SI NO, COMIENZA EN 1
-            $nextLevelNumbers[$subject->id] = $lastLevel ? $lastLevel->level_number + 1 : 1;
-
+            // Buscar el máximo level_number, no el total de niveles
+            $maxLevel = $subject->levels()->max('level_number');
+            $nextLevelNumbers[$subject->id] = $maxLevel ? $maxLevel + 1 : 1;
         }
 
         // RETORNA LA VISTA DE CREACIÓN CON LAS MATERIAS Y EL NÚMERO SIGUIENTE DE NIVEL

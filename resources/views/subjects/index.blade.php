@@ -2,8 +2,7 @@
 
 @section('content')
 <div class="container">
-    <button class="btn btn-primary" onclick="window.location.href='{{ route('admin.levels.index') }}'">Regresar</button>
-
+ 
 
 <hr>
 
@@ -36,12 +35,12 @@
                 <tr>
                     <td>{{ $subject->id }}</td>
                     <td>{{ $subject->name }}</td>
-                    <td><i class="fas fa-{{ $subject->icon }} text-{{ $subject->color }}"></i> {{ $subject->icon }}</td>
-                    <td><span class="badge bg-{{ $subject->color }}">&nbsp;</span></td>
+                    <td><i class="fas fa-{{ $subject->icon }} text-{{ $subject->color }}"></i> </td>
+                    <td><span class="badge badge-{{ $subject->color }}" style="display:inline-block; width:120px; height:20px;">&nbsp;</span></td>
                     <td>{{ $subject->description ?? 'Sin descripción' }}</td>
                     <td>
-                        <div class="d-flex gap-2" role="group">
-                            <a href="{{ route('admin.subjects.edit', $subject) }}" class="btn btn-sm btn-primary">Editar</a>
+                        <div class="d-flex" role="group">
+                            <a href="{{ route('admin.subjects.edit', $subject) }}" class="btn btn-sm btn-primary mr-2">Editar</a>
                             <form action="{{ route('admin.subjects.destroy', $subject) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')

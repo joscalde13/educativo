@@ -14,6 +14,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect('/')->with('error', 'No tienes permisos para acceder a esta sección.');
+        return redirect('/home')->with('error', 'No tienes permisos para acceder a esta sección ingresa como administrador');
     }
 } 

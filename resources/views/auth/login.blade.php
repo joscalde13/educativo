@@ -1,68 +1,45 @@
-@extends('layouts.app')
+@extends('layouts.guest')
+
+@section('title', 'Iniciar Sesión')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Iniciar Sesión') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}" class="d-flex flex-column align-items-center">
-                        @csrf
-
-                        <div class="row mb-4 w-100" style="max-width: 500px;">
-                            <label for="email" class="col-md-4 col-form-label">{{ __('Correo Electrónico') }}</label>
-
-                            <div class="col-md-8">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-4 w-100" style="max-width: 500px;">
-                            <label for="password" class="col-md-4 col-form-label">{{ __('Contraseña') }}</label>
-
-                            <div class="col-md-8">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-4 w-100" style="max-width: 500px;">
-                            <div class="col-md-8 offset-md-4">
-                               
-                            </div>
-                        </div>
-
-                        <div class="row mb-4 w-100" style="max-width: 500px;">
-                            <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-primary px-4">
-                                    {{ __('Iniciar Sesión') }}
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="row w-100" style="max-width: 500px;">
-                            <div class="col-12 text-center">
-                                <a href="{{ route('register') }}" class="btn btn-link">
-                                    {{ __('¿No tienes una cuenta? Regístrate') }}
-                                </a>
-                            </div>
-                        </div>
-                        
-                    </form>
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg border-0">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <span class="d-inline-block bg-primary rounded-circle p-3 mb-2">
+                        <i class="fas fa-user fa-2x text-white"></i>
+                    </span>
+                    <h3 class="mb-0 font-weight-bold">Iniciar Sesión</h3>
                 </div>
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <div class="form-group mb-4">
+                        <label for="email">Correo Electrónico</label>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="password">Contraseña</label>
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg font-weight-bold mb-3">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Ingresar
+                    </button>
+                    <div class="text-center">
+                        <a href="{{ route('register') }}" class="small">¿No tienes una cuenta? <b>Regístrate</b></a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
