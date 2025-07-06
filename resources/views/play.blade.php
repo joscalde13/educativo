@@ -7,6 +7,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Nivel {{ $level->level_number }} - {{ $level->subject->name }}</title>
 
+    <!-- FUENTES WEB DE GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -16,8 +21,11 @@
     <style>
         body {
             background: linear-gradient(145deg, #ffecd2 0%, #fcb69f 100%);
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
 
         .answer-button {
@@ -26,6 +34,7 @@
             transition: transform 0.3s;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             color: #4b4b4b;
+            font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
         }
 
         .answer-button:hover {
@@ -54,10 +63,17 @@
         .main-title {
             color: #ff6347;
             font-weight: bold;
+            font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
         }
 
         .subtitle {
             color: #4b4b4b;
+            font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* Asegurar que todos los elementos usen las fuentes correctas */
+        h1, h2, h3, h4, h5, h6, p, span, div, button, a {
+            font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
         }
     </style>
 

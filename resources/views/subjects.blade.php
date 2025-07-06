@@ -5,16 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Elige tu Materia - Juego Educativo</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])  
+  <!-- FUENTES WEB DE GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  @vite(['resources/css/app.css', 'resources/js/app.js'])  
  
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
 
   <style>
     body {
       background: linear-gradient(145deg, #ffecd2 0%, #fcb69f 100%);
-      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
 
     .subject-card {
@@ -27,6 +35,7 @@
       color: inherit;
       text-decoration: none;
       display: block;
+      font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     }
 
     .subject-card:hover {
@@ -47,15 +56,23 @@
       padding: 2rem;
       margin-bottom: 2rem;
       text-align: center;
+      font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     }
 
     .subject-title {
       color: #ff6347;
       font-weight: bold;
+      font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     }
 
     .subject-description {
       color: #4b4b4b;
+      font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    /* Asegurar que todos los elementos usen las fuentes correctas */
+    h1, h2, h3, h4, h5, h6, p, span, div, a {
+      font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     }
   </style>
 

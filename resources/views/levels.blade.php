@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $subject->name }} - Niveles</title>
 
+    <!-- FUENTES WEB DE GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -35,6 +40,10 @@
       body {
         background: linear-gradient(145deg, #ffecd2 0%, #fcb69f 100%);
         min-height: 100vh;
+        font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
       }
 
       .game-card {
@@ -43,10 +52,11 @@
         padding: 1rem;
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         border: 5px solid #ffb347;
+        font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
       }
 
       h1, h2 {
-        font-family: 'Comic Sans MS', cursive, sans-serif;
+        font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
       }
 
       h1 {
@@ -60,6 +70,11 @@
       .locked {
         opacity: 0.7;
         cursor: not-allowed;
+      }
+
+      /* Asegurar que todos los elementos usen las fuentes correctas */
+      h1, h2, h3, h4, h5, h6, p, span, div, button, a {
+        font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
       }
     </style>
 
