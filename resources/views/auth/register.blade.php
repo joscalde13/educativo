@@ -13,46 +13,46 @@
                     </span>
                     <h3 class="mb-0 font-weight-bold">Crear Cuenta</h3>
                 </div>
-                <form method="POST" action="{{ route('register') }}">
-                    @csrf
+                    <form method="POST" action="{{ route('register') }}">
+                        @csrf
                     <div class="form-group mb-4">
                         <label for="name">Nombre</label>
                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autofocus>
-                        @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                     <div class="form-group mb-4">
                         <label for="email">Correo Electrónico</label>
                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required>
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                     <div class="form-group mb-4">
                         <label for="password">Contraseña</label>
                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                     <div class="form-group mb-4">
                         <label for="password-confirm">Confirmar Contraseña</label>
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                    </div>
+                        </div>
                     <button type="submit" class="btn btn-success btn-block btn-lg font-weight-bold mb-3">
                         <i class="fas fa-user-plus mr-2"></i> Registrarse
-                    </button>
+                                </button>
                     <div class="text-center">
                         <a href="{{ route('login') }}" class="small">¿Ya tienes una cuenta? <b>Inicia sesión</b></a>
-                    </div>
-                </form>
+                        </div>
+                    </form>
             </div>
         </div>
     </div>

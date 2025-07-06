@@ -66,6 +66,8 @@
 
 
 
+
+
 <body class="d-flex flex-column align-items-center p-4">
 
     <div class="container" style="max-width: 960px;">
@@ -145,13 +147,21 @@
                         <p class="text-muted fs-5">Has ganado <span id="points" class="fw-bold"></span> puntos</p>
                     </div>
 
+                    <!-- MENSAJE DE FELICITACIÓN CUANDO SE COMPLETAN TODOS LOS NIVELES -->
+                    <div id="completed-all" class="d-none">
+                        <i class="fas fa-trophy fs-1 text-warning mb-3 celebrate"></i>
+                        <h3 class="fs-3 text-warning fw-bold mb-2">¡Felicidades!</h3>
+                        <p class="text-muted fs-5">Has completado todos los niveles de <span id="subject-name" class="fw-bold"></span></p>
+                        <p class="text-success fs-6 fw-semibold">¡Eres un experto en esta materia!</p>
+                    </div>
+
                     
                     <!-- MENSAJE DE ERROR QUE ESTA OCULTO SOLO SI EL ID ES VERIFICADO Y RESPUESTA ES INCORRECTA SE MUESTRA -->
                     <div id="error" class="d-none">
                         <i class="fas fa-times-circle fs-1 text-danger mb-3 celebrate"></i>
                         <h3 class="fs-3 text-danger fw-bold mb-2">¡Inténtalo de nuevo!</h3>
                         <p class="text-muted fs-5">La respuesta no es correcta</p>
-                        <p id="error-message" class="text-warning mt-2 fw-semibold"></p>
+                        <p id="error-message" class="text-primary mt-2 fw-semibold"></p>
                     </div>
 
 
@@ -161,13 +171,18 @@
 
                         <!-- BOTON DE INTENTAR DE NUEVO QUE RECARGA LA PAGINA -->
                         <button onclick="window.location.reload()"
-                                class="btn btn-warning fw-bold" style="background-color: #2f722e;">
+                                class="btn btn-warning fw-bold" style="background-color: #d38d1c;">
                                 
                             Intentar de nuevo
                         </button>
 
-                        <!-- BOTON DE VOLVER A NIVELES QUE REDIRECCIONA A LA RUTA DE NIVELES -->
-                        <a href="{{ route('show-subject', ['student' => $student->id, 'subject' => $level->subject_id]) }}"
+                        <!-- BOTON DE SIGUIENTE NIVEL (SOLO SE MUESTRA SI HAY SIGUIENTE NIVEL) -->
+                        <a id="next-level-btn" href="#" class="btn btn-success fw-bold d-none">
+                            <i class="fas fa-arrow-right me-2"></i> Siguiente nivel
+                        </a>
+
+                        <!-- BOTON DE VOLVER A NIVELES (SE MUESTRA SI NO HAY SIGUIENTE NIVEL) -->
+                        <a id="back-to-levels-btn" href="{{ route('show-subject', ['student' => $student->id, 'subject' => $level->subject_id]) }}"
                             class="btn btn-secondary fw-bold">
                             Volver a Niveles
                         </a>
@@ -226,8 +241,25 @@
                     $('#answers').addClass('opacity-500 pe-none');
 
                     if (data.correct) {
-                        $('#success').removeClass('d-none');
+                        $('#success').removeClass('d-none');    
                         $('#points').text(data.points);
+
+                        // MANEJA LA LÓGICA DEL BOTÓN SIGUIENTE NIVEL
+                        if (data.next_level_url) {
+                            // HAY SIGUIENTE NIVEL - MUESTRA BOTÓN SIGUIENTE NIVEL
+                            $('#success').removeClass('d-none');
+                            $('#next-level-btn').attr('href', data.next_level_url).removeClass('d-none');
+                            $('#back-to-levels-btn').addClass('d-none');
+                            $('#completed-all').addClass('d-none');
+                        } else {
+                            // NO HAY SIGUIENTE NIVEL - MUESTRA MENSAJE DE FELICITACIÓN
+                            $('#success').addClass('d-none');
+                            $('#completed-all').removeClass('d-none');
+                            $('#subject-name').text('{{ $level->subject->name }}');
+                            $('#next-level-btn').addClass('d-none');
+                            $('#back-to-levels-btn').removeClass('d-none');
+                        }
+
                         $('.answer-button').each(function() {
                             if ($(this).text().trim() === answer) {
                                 $(this).css('background-color', '#c8f7c5'); // verde claro
@@ -252,7 +284,7 @@
                         $('#error-message').text(mensajeAleatorio);
                         $('.answer-button').each(function() {
                             if ($(this).text().trim() === answer) {
-                                $(this).css('background-color', '#ffc2c2'); // rojo clar
+                                $(this).css('background-color', '#ffc2c2'); 
                             }
                         });
                     }

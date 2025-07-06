@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- CONFIGURACIÓN BÁSICA DEL DOCUMENTO -->
+  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión de Niveles Y Materias</title>
 
-    <!-- TOKEN DE SEGURIDAD PARA PETICIONES AJAX Y FORMULARIOS -->
+   
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- PUNTO PARA INYECTAR SCRIPTS DESDE OTRAS VISTAS -->

@@ -239,11 +239,22 @@ class GameController extends Controller
             }
         }
 
+        // BUSCA EL SIGUIENTE NIVEL DE LA MISMA MATERIA
+        $nextLevel = Level::where('subject_id', $level->subject_id)
+            ->where('level_number', '>', $level->level_number)
+            ->orderBy('level_number')
+            ->first();
+
+        $nextLevelUrl = $nextLevel
+            ? route('play-level', ['student' => $studentId, 'level' => $nextLevel->id])
+            : null;
+
         // RETORNA RESPUESTA A LA VISTA 
         return response()->json([
             'correct' => $isCorrect,
             'points' => $points,
-            'total_score' => $student->total_score
+            'total_score' => $student->total_score,
+            'next_level_url' => $nextLevelUrl
         ]);
     }
 

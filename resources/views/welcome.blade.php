@@ -138,7 +138,7 @@
 
 
             <!-- FORMULARIO DE BUSQUEDA DE ESTUDIANTE EXISTENTE -->
-            <div class="col-md-6 border-end border-4 border-warning">
+            <div class="col-md-6 border-end border-4 ">
                 <h2 class="fw-bold mb-4">¿Ya has jugado antes?</h2>
 
                 <form action="{{ route('find-student') }}" method="POST" class="vstack gap-4">
