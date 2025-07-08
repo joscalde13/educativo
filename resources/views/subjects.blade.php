@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Elige tu Materia - Juego Educativo</title>
@@ -77,7 +78,104 @@
   </style>
 
 
+
+<!-- ESTILOS PARA EL BOTÓN Y MODAL DE RANKING GLOBAL -->
+<style>
+    #ranking-btn {
+        position: fixed;
+        top: 32px;
+        right: 32px;
+        z-index: 1050;
+        background: #ffb347;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.7rem;
+        transition: background 0.2s;
+    }
+    #ranking-btn:hover {
+        background: #ff9800;
+    }
+    #ranking-modal {
+        position: fixed;
+        z-index: 2000;
+        left: 0; top: 0; width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s;
+    }
+    #ranking-modal .modal-content {
+        background: #fff;
+        border-radius: 2rem;
+        padding: 2.5rem 2rem 2rem 2rem;
+        max-width: 420px;
+        width: 95vw;
+        box-shadow: 0 12px 48px rgba(0,0,0,0.25);
+        position: relative;
+        animation: modalFadeIn 0.35s cubic-bezier(.4,2,.6,1) both;
+        border: 4px solid #ffe066;
+    }
+    #ranking-modal .close {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.2rem;
+        font-size: 2rem;
+        color: #ff6347;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    #ranking-modal .close:hover {
+        color: #d32f2f;
+    }
+    #ranking-modal h4 {
+        color: #ff9800;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.5px;
+    }
+    #ranking-table-container table {
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        margin-bottom: 0;
+    }
+    #ranking-table-container th {
+        background: #ffe066;
+        color: #4b4b4b;
+        font-weight: 600;
+        border: none;
+        text-align: center;
+    }
+    #ranking-table-container td {
+        background: #fff9f3;
+        color: #4b4b4b;
+        border: none;
+        text-align: center;
+        font-size: 1.05rem;
+        vertical-align: middle;
+    }
+    #ranking-table-container tr[style*="background:#fff9e6"] td {
+        background: #fff9e6 !important;
+        color: #ff9800;
+        font-weight: bold;
+    }
+    @keyframes modalFadeIn {
+        0% { opacity: 0; transform: translateY(-40px) scale(0.95); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+</style>
+
 </head>
+
+
 
 
 
@@ -86,11 +184,31 @@
 
 <body class="d-flex justify-content-center align-items-center p-4">
 
+    <!-- BOTÓN FLOTANTE DE RANKING GLOBAL -->
+    <button id="ranking-btn" title="Ver Ranking Global">
+      <i class="fas fa-trophy"></i>
+  </button>
+
+    <!-- MODAL DE RANKING GLOBAL -->
+    <div id="ranking-modal" class="d-none text-center">
+        <div class="modal-content" id="ranking-modal-content">
+            <span class="close" id="close-ranking-modal">&times;</span>
+            <h4 class="subject-title mb-3"><i class="fas fa-trophy text-warning me-2"></i>Ranking Global de Estudiantes</h4>
+            <div id="ranking-table-container" class="mb-2 text-center">
+                <div class="text-muted">Cargando ranking...</div>
+            </div>
+        </div>
+    </div>
+
+
+
 
   <div class="container" style="max-width: 960px;">
 
         
         <div class="welcome-box">
+
+          
           <h1 class="mb-3 text-primary">🎉 ¡Hola, {{ $student->name }}!</h1>
           <p class="fs-5 text-secondary">🌟 Puntaje Total: {{ $student->total_score }}</p>
         </div>
@@ -118,6 +236,70 @@
 </body>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- SCRIPTS: LOGICA DEL MODAL DE RANKING GLOBAL -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const rankingBtn = document.getElementById('ranking-btn');
+        const rankingModal = document.getElementById('ranking-modal');
+        const closeRankingModal = document.getElementById('close-ranking-modal');
+        const rankingTableContainer = document.getElementById('ranking-table-container');
+        const modalContent = document.getElementById('ranking-modal-content');
+
+        // MOSTRAR EL MODAL SOLO AL PRESIONAR EL BOTON
+        rankingBtn.addEventListener('click', function() {
+            rankingModal.classList.remove('d-none');
+            // CARGAR RANKING GLOBAL VIA AJAX
+            fetch('/ranking-global')
+                .then(response => response.json())
+                .then(data => {
+                    let html = '<table class="table table-bordered align-middle">';
+                    html += '<thead><tr><th>Puesto</th><th>Estudiante</th><th>Puntaje</th></tr></thead><tbody>';
+                    if (data.length === 0) {
+                        html += '<tr><td colspan="4">No hay datos de ranking.</td></tr>';
+                    } else {
+                        data.forEach(function(student, idx) {
+                            html += `<tr${student.id == {{ $student->id }} ? ' style="background:#fff9e6;font-weight:bold;"' : ''}>
+                                <td>${idx+1}</td>
+                                <td>${student.name}</td>
+                                <td>${student.total_score}</td>
+                              
+                            </tr>`;
+                        });
+                    }
+                    html += '</tbody></table>';
+                    rankingTableContainer.innerHTML = html;
+                })
+                .catch(() => {
+                    rankingTableContainer.innerHTML = '<div class="text-danger">No se pudo cargar el ranking.</div>';
+                });
+        });
+        // CERRAR MODAL AL PRESIONAR LA X
+        closeRankingModal.addEventListener('click', function() {
+            rankingModal.classList.add('d-none');
+        });
+        // CERRAR MODAL AL HACER CLICK FUERA DEL CONTENIDO
+        rankingModal.addEventListener('click', function(e) {
+            if (e.target === rankingModal) {
+                rankingModal.classList.add('d-none');
+            }
+        });
+    });
+</script>
 
 
 </html>

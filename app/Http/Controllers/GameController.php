@@ -8,7 +8,7 @@ use App\Models\Subject;
 use App\Models\Level;
 use App\Models\Score; 
 use Illuminate\Http\Request; 
-
+use Illuminate\Support\Facades\DB;
 
 
 // CLASE QUE CONTROLARA TODO LA LOGICA DEL JUEGO
@@ -268,4 +268,36 @@ class GameController extends Controller
     
 
 
+    // MÉTODO PARA OBTENER EL RANKING GLOBAL DE ESTUDIANTES
+    public function rankingGlobal()
+    {
+        // Obtener todos los estudiantes con su puntaje total
+        $students = \App\Models\Student::all();
+
+        // Para cada estudiante, obtener el nivel más alto completado
+        $ranking = $students->map(function($student) {
+            // Buscar el score con el nivel más alto completado
+            $highestScore = $student->scores()->where('completed', true)
+                ->join('levels', 'scores.level_id', '=', 'levels.id')
+                ->orderByDesc('levels.level_number')
+                ->select('levels.level_number as level_number')
+                ->first();
+            return [
+                'id' => $student->id,
+                'name' => $student->name,
+                'total_score' => $student->total_score,
+                'level_number' => $highestScore ? $highestScore->level_number : null,
+            ];
+        });
+
+        // Ordenar por total_score descendente 
+        $ranking = $ranking->sort(function($a, $b) {
+            if ($a['total_score'] == $b['total_score']) {
+               
+            }
+            return $b['total_score'] <=> $a['total_score'];
+        })->values();
+
+        return response()->json($ranking);
+    }
 }

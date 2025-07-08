@@ -34,6 +34,7 @@ Route::get('/play/{student}/{level}', [GameController::class, 'playLevel'])->nam
 
 Route::post('/submit-answer/{student}/{level}', [GameController::class, 'submitAnswer'])->name('submit-answer');
 
+Route::get('/ranking-global', [GameController::class, 'rankingGlobal']);
 
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
