@@ -108,7 +108,7 @@
 <!-- EL CUERPO DONDE ESTA PARA BUSCAR E INGRESAR EL NOMBRE DEL ESTUDIANTE -->
 <body class="d-flex align-items-center justify-content-center">
 
-    
+   
    
 
 
@@ -122,9 +122,10 @@
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                 </div>
+                
             @endif
 
-
+ 
             
         <h1 class="text-center fw-bold mb-5 display-4">¡Bienvenido al Juego Educativo! </h1>
 

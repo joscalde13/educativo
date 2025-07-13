@@ -208,9 +208,9 @@
         
         <div class="welcome-box">
 
-          
           <h1 class="mb-3 text-primary">🎉 ¡Hola, {{ $student->name }}!</h1>
           <p class="fs-5 text-secondary">🌟 Puntaje Total: {{ $student->total_score }}</p>
+
         </div>
 
 
@@ -218,11 +218,33 @@
     <div class="row g-4">
 
         @foreach($subjects as $subject)
+
         <div class="col-md-4">
             <a href="{{ route('show-subject', ['student' => $student->id, 'subject' => $subject->id]) }}" class="subject-card text-center">
                 <i class="fas fa-{{ $subject->icon  }} text-{{ $subject->color }}"></i>
                 <h5 class="subject-title mt-2">{{ $subject->name }}</h5>
                 <p class="subject-description">{{ $subject->description }}</p>
+
+
+
+                <!-- PHP BARRA DE PROGRESO DE PUNTOS POR MATERIA -->
+                @php
+                  $totalPoints = $subject->total_points;
+                  $earnedPoints = $subject->earned_points;
+                  $progress = $totalPoints > 0 ? round(($earnedPoints / $totalPoints) * 100) : 0;
+                @endphp
+
+                <!-- HTML BARRA DE PROGESO-->
+                <div class="mt-3">
+                  <div class="d-flex justify-content-between align-items-center mb-1 small">
+                    <span class="text-muted">Progreso</span>
+                    <span class="fw-bold">{{ $earnedPoints }}/{{ $totalPoints }} Puntos</span>
+                  </div>
+                  <div class="progress" style="height: 10px; background: #e8f5e8;">
+                    <div class="progress-bar" style="width: {{ $progress }}%; background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <div class="text-end small text-muted mt-1">{{ $progress }}%</div>
+                </div>
             </a>
         </div>
         @endforeach

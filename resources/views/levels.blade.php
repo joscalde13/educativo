@@ -150,8 +150,6 @@
                             @endif
 
 
-
-
                             <div class="fs-1 mb-3 {{ $previousCompleted ? 'text-warning' : 'text-secondary' }}">
                                 <i class="fas fa-star"></i>
                             </div>

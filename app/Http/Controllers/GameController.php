@@ -93,7 +93,19 @@ class GameController extends Controller
         $student = Student::findOrFail($studentId);
 
         // OBTIENE TODAS LAS MATERIAS DE BASE DE DATOS 
-        $subjects = Subject::all();
+        $subjects = Subject::with('levels')->get();
+
+        // PARA CADA MATERIA, CALCULA LOS PUNTOS TOTALES Y LOS PUNTOS OBTENIDOS POR EL ESTUDIANTE
+        $subjects = $subjects->map(function($subject) use ($student) {
+            // TOTAL DE PUNTOS POR MATERIA
+            $totalPoints = $subject->levels->sum('points');
+            // IDs DE LOS NIVELES DE LA MATERIA
+            $levelIds = $subject->levels->pluck('id');
+            // PUNTOS OBTENIDOS POR EL ESTUDIANTE EN LOS NIVELES POR CADA MATERIA EN ESPECIFICA
+            $earnedPoints = $student->scores()->whereIn('level_id', $levelIds)->sum('score');
+            return $subject->setAttribute('total_points', $totalPoints)
+                            ->setAttribute('earned_points', $earnedPoints);
+        });
 
         // MUESTRA EN LA VISTA LAS MATERIAS CON LOS DATOS DEL ESTUDIANTE
         return view('subjects', compact('student', 'subjects'));
