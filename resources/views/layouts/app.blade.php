@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
 </head>
 
+
+
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 
     <!-- CONTENEDOR GENERAL DE LA APLICACIÓN -->
@@ -68,7 +70,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
             <!-- TEXTO DEL MENÚ -->
-            <a href="#" class="brand-link">
+            <a href="/" class="brand-link">
                 <span class="brand-text font-weight-light">Administración</span>
             </a>
 

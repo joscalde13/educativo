@@ -34,7 +34,8 @@
                   ['title' => 'Total de Niveles',         'icon' => 'layer-group',  'value' => $metrics['total_levels'],       'color' => 'primary'],
                   ['title' => 'Niveles Completados',      'icon' => 'check-circle', 'value' => $metrics['completed_levels'],   'color' => 'success'],
                   ['title' => 'Total de Puntuaciones',    'icon' => 'star',         'value' => $metrics['total_scores'],       'color' => 'danger'],
-                  ['title' => 'Puntuación Promedio',      'icon' => 'chart-line',   'value' => number_format($metrics['average_score'], 1), 'color' => 'secondary']
+                  ['title' => 'Puntuación Promedio',      'icon' => 'chart-line',   'value' => number_format($metrics['average_score'], 1), 'color' => 'secondary'],
+                  
                 ];
               @endphp
 

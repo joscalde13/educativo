@@ -146,9 +146,14 @@
                     @csrf
 
                     <div>
-                        <label class="form-label">Selecciona tu nombre:</label>
 
-                        <select name="name" required class="form-select form-select-lg">
+                        <label class="form-label">Busca y selecciona tu nombre:</label>
+                        
+
+                        <input type="text" id="studentSearch" class="form-control form-control-lg mb-2" placeholder="Escribe para filtrar tu nombre">
+
+
+                        <select name="name" id="studentSelect" class="form-select form-select-lg">
 
                             <option value="">Encuentra tu nombre</option>
 
@@ -157,11 +162,12 @@
                                     <option value="{{ $student->name }}">{{ $student->name }}</option>
                                 @endforeach
                             @else
+
                                 <option value="" disabled>No hay estudiantes registrados</option>
+
                             @endif
 
                         </select>
-
                     </div>
 
                     <div>
@@ -169,7 +175,7 @@
                         <input type="password" name="password" required class="form-control form-control-lg" placeholder="Tu clave aquí">
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">
+                    <button type="submit" name="student" class="btn btn-primary btn-lg w-100 fw-bold">
                         🔎 Buscar mi progreso
                     </button>
                 </form>
@@ -214,6 +220,37 @@
 
 
     </div>
+
+
+
+    
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+        
+            const searchInput = document.getElementById('studentSearch');
+            const studentSelect = document.getElementById('studentSelect');
+
+            if (searchInput && studentSelect) {
+                const originalOptions = Array.from(studentSelect.options).map(opt => opt.cloneNode(true));
+
+                searchInput.addEventListener('input', function () {
+                    const filterText = this.value.toLowerCase();
+                    const currentVal = studentSelect.value;
+
+                    studentSelect.innerHTML = '';
+
+                    originalOptions.forEach(option => {
+                        if (option.value === '' || option.textContent.toLowerCase().includes(filterText)) {
+                            studentSelect.appendChild(option.cloneNode(true));
+                        }
+                    });
+                    
+                    studentSelect.value = currentVal;
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>
